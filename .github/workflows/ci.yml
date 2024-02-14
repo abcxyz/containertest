@@ -28,10 +28,10 @@ concurrency:
 
 jobs:
   go_lint:
-    uses: './.github/workflows/go-lint.yml'
+    uses: 'abcxyz/pkg/.github/workflows/go-lint.yml@main' # ratchet:exclude
 
   go_test:
-    uses: './.github/workflows/go-test.yml'
+    uses: 'abcxyz/pkg/.github/workflows/go-test.yml@main' # ratchet:exclude
 
   yaml_lint:
-    uses: './.github/workflows/yaml-lint.yml'
+    uses: 'abcxyz/pkg/.github/workflows/yaml-lint.yml@main' # ratchet:exclude
