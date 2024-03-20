@@ -32,6 +32,9 @@ func MustStart(opts ...Option) (ConnInfo, io.Closer) {
 	conf := buildConfig(opts...)
 	ci, c, err := start(conf)
 	if err != nil {
+		// The Closer must be called even if there's an error, to clean up the
+		// docker container that may exist.
+		_ = c.Close()
 		panic(err)
 	}
 	return ci, c

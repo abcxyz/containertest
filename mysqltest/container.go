@@ -20,10 +20,13 @@ package mysqltest
 // this file should be replaced with the Google-internal version.
 
 import (
+	"fmt"
 	"io"
 
 	"github.com/abcxyz/containertest"
 )
+
+var nopCloser = io.NopCloser(nil)
 
 func start(conf *config) (ConnInfo, io.Closer, error) {
 	driver := &containertest.MySQL{Version: conf.mySQLVersion}
@@ -36,11 +39,14 @@ func start(conf *config) (ConnInfo, io.Closer, error) {
 	}
 
 	ci, err := containertest.Start(driver, translatedOpts...)
+	if err != nil {
+		return ConnInfo{}, nopCloser, fmt.Errorf("failed to start container: %w", err)
+	}
 
 	return ConnInfo{
 		Username: driver.Username(),
 		Password: driver.Password(),
 		Hostname: ci.Host,
 		Port:     ci.PortMapper(driver.StartupPorts()[0]),
-	}, ci, err
+	}, ci, nil
 }
