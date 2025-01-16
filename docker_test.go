@@ -59,9 +59,10 @@ func TestKillAfter(t *testing.T) {
 	deadline := time.Now().Add(killAfter)
 	for time.Now().Before(deadline) {
 		if err := db.Ping(); err != nil {
-			// It would be cleaner to do a type assertion on the error, but the actual type we get is
-			// just an *errors.errorString, so we have to examine the text of the error.
-			wantOneOf := []string{"bad connection", "invalid connection"}
+			// It would be cleaner to do a type assertion on the error, but the actual
+			// type we get is just an *errors.errorString, so we have to examine the
+			// text of the error.
+			wantOneOf := []string{"bad connection", "invalid connection", "connection refused"}
 			if containsOneOf(err.Error(), wantOneOf) {
 				t.Log("the docker container stopped itself successfully")
 				return
