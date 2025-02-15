@@ -25,7 +25,7 @@ import (
 
 func TestPostgres(t *testing.T) {
 	t.Parallel()
-	ctx := context.Background()
+	ctx := t.Context()
 
 	p := &Postgres{Version: "15"}
 	ci, err := Start(p, WithLogger(t))
