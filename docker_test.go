@@ -52,13 +52,13 @@ func TestKillAfter(t *testing.T) {
 	}
 	db := connectMySQL(t, ci, m)
 
-	if err := db.Ping(); err != nil {
+	if err := db.PingContext(t.Context()); err != nil {
 		t.Fatalf("db.Ping: %v", err)
 	}
 
 	deadline := time.Now().Add(killAfter)
 	for time.Now().Before(deadline) {
-		if err := db.Ping(); err != nil {
+		if err := db.PingContext(t.Context()); err != nil {
 			// It would be cleaner to do a type assertion on the error, but the actual
 			// type we get is just an *errors.errorString, so we have to examine the
 			// text of the error.
