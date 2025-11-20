@@ -15,6 +15,7 @@
 package containertest
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"net"
@@ -65,8 +66,8 @@ func (m *MySQL) TestConn(progressLogger TestLogger, connInfo *ConnInfo) error {
 		return fmt.Errorf("sql.Open(): %w", err)
 	}
 
-	if err := db.Ping(); err != nil {
-		return fmt.Errorf("db.Ping(): %w", err)
+	if err := db.PingContext(context.Background()); err != nil {
+		return fmt.Errorf("db.PingContext(): %w", err)
 	}
 
 	progressLogger.Logf("MySQL is up on port %v", port)
